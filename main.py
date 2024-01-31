@@ -5,7 +5,7 @@
 # Если не реализован репр и стр, то будет возвращен адрес в памяти
 # eq по умолчанию сравнивает адрес в памяти, в реализации лучше сразу проверить тип
 # Если методы сравнения не реализованы то падает ошибка ( не забываем добавлять сравнение, что пришло как в ==)
-
+# contains для реализации проверки in
 
 class Banknote:
     def __init__(self, value: int):
@@ -45,12 +45,16 @@ class Banknote:
 class Wallet:
     def __init__(self, *banknotes: Banknote):
         self.container = []
-        self.container.и (banknotes)  # используется для добавления банкнот в контейнер кошелька. Метод extend
+        self.container.extend(banknotes)  # используется для добавления банкнот в контейнер кошелька. Метод extend
         # расширяет список, добавляя элементы из переданного итерируемого объекта (banknotes) в конец списка. В
         # данном случае, все переданные объекты Banknote добавляются в self.container.
 
     def __repr__(self):
         return f'Wallet({self.container})'
+
+    def __contains__(self, item):
+        #  Реализует проверку in можно не проверять тип item
+        return item in self.container
 
 
 if __name__ == "__main__":
@@ -58,7 +62,7 @@ if __name__ == "__main__":
     fifty = Banknote(50)
     hundred = Banknote(100)
     wallet = Wallet(fifty, hundred)
-    print(wallet)
+    print(hundred in wallet)
 
 
 
