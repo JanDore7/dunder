@@ -4,7 +4,7 @@
 # str - для людей, возвращает строку
 # Если не реализован репр и стр, то будет возвращен адрес в памяти
 # eq по умолчанию сравнивает адрес в памяти, в реализации лучше сразу проверить тип
-
+# Если методы сравнения не реализованы то падает ошибка ( не забываем добавлять сравнение, что пришло как в ==)
 
 
 class Banknote:
@@ -25,6 +25,22 @@ class Banknote:
             return False
         return self.value == other.value
 
+    def __lt__(self, other):
+        # Меньше чем
+        return self.value < other.value
+
+    def __gt__(self, other):
+        # Больше чем
+        return self.value > other.value
+
+    def __le__(self, other):
+        # Меньше или равно
+        return self.value <= other.value
+
+    def __ge__(self, other):
+        # Больше или равно
+        return self.value >= other.value
+
 
 if __name__ == "__main__":
     banknote = Banknote(50)
@@ -32,5 +48,9 @@ if __name__ == "__main__":
     hundred = Banknote(100)
     print(fifty == hundred)
     print(fifty == banknote)  # Если не определить eq сравниваться будут ячейки памяти соответственно будет false
+    print(fifty < hundred)
+    print(fifty > hundred)
+    print(fifty <= hundred)
+    print(fifty >= hundred)
 
 
