@@ -42,15 +42,24 @@ class Banknote:
         return self.value >= other.value
 
 
+class Wallet:
+    def __init__(self, *banknotes: Banknote):
+        self.container = []
+        self.container.и (banknotes)  # используется для добавления банкнот в контейнер кошелька. Метод extend
+        # расширяет список, добавляя элементы из переданного итерируемого объекта (banknotes) в конец списка. В
+        # данном случае, все переданные объекты Banknote добавляются в self.container.
+
+    def __repr__(self):
+        return f'Wallet({self.container})'
+
+
 if __name__ == "__main__":
     banknote = Banknote(50)
     fifty = Banknote(50)
     hundred = Banknote(100)
-    print(fifty == hundred)
-    print(fifty == banknote)  # Если не определить eq сравниваться будут ячейки памяти соответственно будет false
-    print(fifty < hundred)
-    print(fifty > hundred)
-    print(fifty <= hundred)
-    print(fifty >= hundred)
+    wallet = Wallet(fifty, hundred)
+    print(wallet)
+
+
 
 
