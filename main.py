@@ -8,6 +8,8 @@
 # contains для реализации проверки in
 # самописный объект всегда True, для изменеия поведения нужно написать __bool__
 # len вернет ошибку если не переопределить метод len
+# что бы объект стал вызываемым (callable) нужно реализовать метод __call__, иначе ошибка
+
 
 class Banknote:
     def __init__(self, value: int):
@@ -65,6 +67,10 @@ class Wallet:
     def __len__(self):
         return len(self.container)
 
+    def __call__(self):
+        # Позволяет вызывать объекты класса как функцию
+        return f'{sum(e.value for e in self.container)} рублей'
+
 
 if __name__ == "__main__":
     banknote = Banknote(50)
@@ -72,7 +78,7 @@ if __name__ == "__main__":
     hundred = Banknote(100)
     wallet = Wallet(fifty, hundred)
     print(len(wallet))
-
+    print(wallet())
 
 
 
