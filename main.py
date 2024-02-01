@@ -11,7 +11,7 @@
 # что бы объект стал вызываемым (callable) нужно реализовать метод __call__, иначе ошибка
 # __iter__ возвращает объект итератор, тот кто реализует итер  = Итаребл
 # __next__ должен вернуть следующий объект из контейнера, кто его реализует = Итератор
-
+# __getitem__ нужен для функционала [] аналог списка или словаря, __setitem__ для присвоения. Если не реализовать то будет ошибка.
 
 class Banknote:
     def __init__(self, value: int):
@@ -94,6 +94,10 @@ class Wallet:
             raise IndexError
         return self.container[item]
 
+    def __setitem__(self, key, value):
+        if key < 0 or key > len(self.container):
+            raise IndexError
+        self.container[key] = value
 
 
 if __name__ == "__main__":
@@ -101,7 +105,7 @@ if __name__ == "__main__":
     fifty = Banknote(50)
     hundred = Banknote(100)
     wallet = Wallet(fifty, hundred)
-    print(wallet[0])
-
+    wallet[0] = Banknote(500)
+    print(wallet)
 
 
