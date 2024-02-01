@@ -48,6 +48,18 @@ class Banknote:
         return self.value >= other.value
 
 
+class Iterator:
+    def __init__(self, container):
+        self.container = container
+        self.index = 0
+
+    def __next__(self):
+        while 0 <= self.index < len(self.container): # Можно поменять на if
+            value = self.container[self.index]
+            self.index += 1
+            return value
+        raise StopIteration
+
 class Wallet:
     def __init__(self, *banknotes: Banknote):
         self.container = []
@@ -75,14 +87,7 @@ class Wallet:
         return f'{sum(e.value for e in self.container)} рублей'
 
     def __iter__(self):
-        return self
-
-    def __next__(self):
-        while 0 <= self.index < len(self.container): # Можно поменять на if
-            value = self.container[self.index]
-            self.index += 1
-            return value
-        raise StopIteration
+        return Iterator(self.container)
 
 
 if __name__ == "__main__":
