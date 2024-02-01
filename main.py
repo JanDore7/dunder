@@ -10,8 +10,10 @@
 # len вернет ошибку если не переопределить метод len
 # что бы объект стал вызываемым (callable) нужно реализовать метод __call__, иначе ошибка
 # __iter__ возвращает объект итератор, тот кто реализует итер  = Итаребл
-# __next__ должен вернуть следующий объект из контейнера, кто его реализует = Итератор
+# __next__ должен вернуть следующий объект из контейнера, кто его реализует = Итератор , for работает до StopIteration
 # __getitem__ нужен для функционала [] аналог списка или словаря, __setitem__ для присвоения. Если не реализовать то будет ошибка.
+# Если в объекте не реализован __iter__ то для цикла for будет использован __getitem__ там ожидается падение IndexError
+
 
 class Banknote:
     def __init__(self, value: int):
@@ -48,17 +50,17 @@ class Banknote:
         return self.value >= other.value
 
 
-class Iterator:
-    def __init__(self, container):
-        self.container = container
-        self.index = 0
-
-    def __next__(self):
-        while 0 <= self.index < len(self.container): # Можно поменять на if
-            value = self.container[self.index]
-            self.index += 1
-            return value
-        raise StopIteration
+# class Iterator:
+#     def __init__(self, container):
+#         self.container = container
+#         self.index = 0
+#
+#     def __next__(self):
+#         while 0 <= self.index < len(self.container): # Можно поменять на if
+#             value = self.container[self.index]
+#             self.index += 1
+#             return value
+#         raise StopIteration
 
 class Wallet:
     def __init__(self, *banknotes: Banknote):
@@ -86,8 +88,8 @@ class Wallet:
         # Позволяет вызывать объекты класса как функцию
         return f'{sum(e.value for e in self.container)} рублей'
 
-    def __iter__(self):
-        return Iterator(self.container)
+    # def __iter__(self):
+    #     return Iterator(self.container)
 
     def __getitem__(self, item): # item либо индекс ибо слово из словаря
         if item < 0 or item > len(self.container):
@@ -106,6 +108,9 @@ if __name__ == "__main__":
     hundred = Banknote(100)
     wallet = Wallet(fifty, hundred)
     wallet[0] = Banknote(500)
-    print(wallet)
+    for many in wallet:
+        print(many)
+    for many in wallet:
+        print(many)
 
 
