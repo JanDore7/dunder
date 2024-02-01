@@ -10,7 +10,7 @@
 # len вернет ошибку если не переопределить метод len
 # что бы объект стал вызываемым (callable) нужно реализовать метод __call__, иначе ошибка
 # __iter__ возвращает объект итератор, тот кто реализует итер  = Итаребл
-# __next__ должен вернуть следующий объект из контейнера, кто его реализует  = Итератор
+# __next__ должен вернуть следующий объект из контейнера, кто его реализует = Итератор
 
 
 class Banknote:
@@ -89,14 +89,19 @@ class Wallet:
     def __iter__(self):
         return Iterator(self.container)
 
+    def __getitem__(self, item): # item либо индекс ибо слово из словаря
+        if item < 0 or item > len(self.container):
+            raise IndexError
+        return self.container[item]
+
+
 
 if __name__ == "__main__":
     banknote = Banknote(50)
     fifty = Banknote(50)
     hundred = Banknote(100)
     wallet = Wallet(fifty, hundred)
-    for many in wallet:
-        print(many)
+    print(wallet[0])
 
 
 
