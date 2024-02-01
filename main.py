@@ -9,6 +9,8 @@
 # самописный объект всегда True, для изменеия поведения нужно написать __bool__
 # len вернет ошибку если не переопределить метод len
 # что бы объект стал вызываемым (callable) нужно реализовать метод __call__, иначе ошибка
+# __iter__ возвращает объект итератор, тот кто реализует итер  = Итаребл
+# __next__ должен вернуть следующий объект из контейнера, кто его реализует  = Итератор
 
 
 class Banknote:
@@ -52,6 +54,7 @@ class Wallet:
         self.container.extend(banknotes)  # используется для добавления банкнот в контейнер кошелька. Метод extend
         # расширяет список, добавляя элементы из переданного итерируемого объекта (banknotes) в конец списка. В
         # данном случае, все переданные объекты Banknote добавляются в self.container.
+        self.index = 0
 
     def __repr__(self):
         return f'Wallet({self.container})'
@@ -71,15 +74,24 @@ class Wallet:
         # Позволяет вызывать объекты класса как функцию
         return f'{sum(e.value for e in self.container)} рублей'
 
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        while 0 <= self.index < len(self.container): # Можно поменять на if
+            value = self.container[self.index]
+            self.index += 1
+            return value
+        raise StopIteration
+
 
 if __name__ == "__main__":
     banknote = Banknote(50)
     fifty = Banknote(50)
     hundred = Banknote(100)
     wallet = Wallet(fifty, hundred)
-    print(len(wallet))
-    print(wallet())
-
+    for many in wallet:
+        print(many)
 
 
 
