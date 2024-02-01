@@ -7,7 +7,7 @@
 # Если методы сравнения не реализованы то падает ошибка ( не забываем добавлять сравнение, что пришло как в ==)
 # contains для реализации проверки in
 # самописный объект всегда True, для изменеия поведения нужно написать __bool__
-
+# len вернет ошибку если не переопределить метод len
 
 class Banknote:
     def __init__(self, value: int):
@@ -62,14 +62,17 @@ class Wallet:
         # Переопределяем bool, по умолчанию самописный объект True
         return len(self.container) > 0
 
+    def __len__(self):
+        return len(self.container)
+
 
 if __name__ == "__main__":
     banknote = Banknote(50)
     fifty = Banknote(50)
     hundred = Banknote(100)
     wallet = Wallet(fifty, hundred)
-    if wallet:
-        print('!')
+    print(len(wallet))
+
 
 
 
